@@ -1,33 +1,32 @@
 const express = require('express')
-const models = require('./models')
-const expressGraphQL = require('express-graphql')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const schema = require('./schema/schema')
-
-const app = express()
-
-// Replace with your mongoLab URI
-const MONGO_URI = ''
-if (!MONGO_URI) {
-  throw new Error('You must provide a MongoLab URI')
-}
-
-mongoose.Promise = global.Promise
-mongoose.connect(MONGO_URI)
-mongoose.connection
-    .once('open', () => console.log('Connected to MongoLab instance.'))
-    .on('error', error => console.log('Error connecting to MongoLab:', error))
-
-app.use(bodyParser.json())
-app.use('/graphql', expressGraphQL({
-  schema,
-  graphiql: true
-}))
-
 const webpackMiddleware = require('webpack-dev-middleware')
 const webpack = require('webpack')
-const webpackConfig = require('../webpack.config.js')
+const { graphqlHTTP } = require('express-graphql')
+const mongoose = require('mongoose')
+
+const models = require('./models')
+const schema = require('./schema/schema')
+const webpackConfig = require('../webpack.dev.config.js')
+
+const app = express()
+// damopem451@in4mail.net
+const MONGO_URI = `mongodb+srv://stephan:R_U_MINE@cluster0.takbq.mongodb.net/5f312a3cdea41576024f7ec5?retryWrites=true&w=majority`
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('Connected to mongodb instance'))
+  .catch(e => console.log('DB error', e)) 
+
+app.use(express.json())
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true
+  }),
+)
+
 app.use(webpackMiddleware(webpack(webpackConfig)))
 
 module.exports = app
