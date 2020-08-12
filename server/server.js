@@ -10,7 +10,7 @@ const webpackConfig = require('../webpack.dev.config.js')
 
 const app = express()
 // damopem451@in4mail.net
-const MONGO_URI = `mongodb+srv://stephan:R_U_MINE@cluster0.takbq.mongodb.net/5f312a3cdea41576024f7ec5?retryWrites=true&w=majority`
+const MONGO_URI = `mongodb+srv://stephan:R_U_MINE@cluster0.takbq.mongodb.net/lyric?retryWrites=true&w=majority`
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
