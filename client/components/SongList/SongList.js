@@ -2,14 +2,14 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql }  from 'react-apollo'
 
+import { Link } from 'react-router-dom'
+
 const SongList = (props) => { 
 
   const { songs = [], loading } = props.data
 
   const renderSongs = () => {
-    if (loading) return (
-      <div>Loading...</div>
-    )
+    if (loading) return <div>Loading...</div>
     return songs.map(song => {
       return (
         <li key={song.id}>
@@ -20,7 +20,10 @@ const SongList = (props) => {
   }
  
   return (
-    <div>{ renderSongs() }</div>
+    <>
+      <div>{ renderSongs() }</div>
+      <Link to='create-song'>Create a new song</Link>
+    </>
   )
 }
 
